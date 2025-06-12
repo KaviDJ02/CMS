@@ -10,7 +10,7 @@ import live.kavinduj.cms.dao.ComplaintDAO;
 import java.io.IOException;
 
 @WebServlet("/adminDashboard")
-public class adminDashServlet extends HttpServlet {
+public class AdminDashServlet extends HttpServlet {
     ComplaintDAO complaintDAO;
 
     @Override

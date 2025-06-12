@@ -23,6 +23,16 @@ public class Complaint {
         this.updatedAt = updatedAt;
     }
 
+    public Complaint(int id, int userId, String description, String status, String remarks, Timestamp createdAt, Timestamp updatedAt) {
+        this.id = id;
+        this.userId = userId;
+        this.description = description;
+        this.status = status;
+        this.remarks = remarks;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+    }
+
     // Getters and Setters
     public int getId() { return id; }
     public int getUserId() { return userId; }
