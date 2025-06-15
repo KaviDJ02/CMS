@@ -76,6 +76,10 @@
                         <textarea name="remarks" placeholder="Add remarks">${complaint.remarks}</textarea>
                         <input type="submit" value="Update">
                     </form>
+                    <form action="deleteComplaint" method="post" style="margin-top:5px;" onsubmit="return confirm('Are you sure you want to delete this complaint?');">
+                        <input type="hidden" name="complaintId" value="${complaint.id}">
+                        <input type="submit" value="Delete" style="background-color:#d9534f; color:white;">
+                    </form>
                 </td>
             </tr>
         </c:forEach>

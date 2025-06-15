@@ -89,6 +89,9 @@ public class ComplaintDAO {
                 complaints.add(new Complaint(
                         rs.getInt("id"),
                         rs.getInt("user_id"),
+
+                        getUsernameFormId(rs.getInt("user_id")), // Fetch username from user ID
+
                         rs.getString("description"),
                         rs.getString("status"),
                         rs.getString("remarks"),
@@ -96,6 +99,7 @@ public class ComplaintDAO {
                         rs.getTimestamp("updated_at")
                 ));
             }
+
         } catch (Exception e) {
             System.err.println("Error in getAllComplaints: " + e.getMessage());
             e.printStackTrace();
@@ -113,6 +117,49 @@ public class ComplaintDAO {
             return stmt.executeUpdate() > 0;
         } catch (Exception e) {
             System.err.println("Error updating complaint: " + e.getMessage());
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean deleteComplaintByEmployee(int complaintId, int userId) {
+        String sql = "DELETE FROM complaints WHERE id = ? AND user_id = ?";
+        try (Connection conn = dataSource.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, complaintId);
+            stmt.setInt(2, userId);
+            return stmt.executeUpdate() > 0;
+        } catch (Exception e) {
+            System.err.println("Error deleting complaint: " + e.getMessage());
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public String getUsernameFormId (int userId) {
+        String sql = "SELECT username FROM users WHERE id = ?";
+        try (Connection conn = dataSource.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, userId);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return rs.getString("username");
+            }
+        } catch (Exception e) {
+            System.err.println("Error getting username: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public boolean deleteComplaintById(int complaintId) {
+        String sql = "DELETE FROM complaints WHERE id = ?";
+        try (Connection conn = dataSource.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, complaintId);
+            return stmt.executeUpdate() > 0;
+        } catch (Exception e) {
+            System.err.println("Error deleting complaint by ID: " + e.getMessage());
             e.printStackTrace();
             return false;
         }

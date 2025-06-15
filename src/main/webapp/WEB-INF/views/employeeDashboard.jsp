@@ -126,34 +126,43 @@
     </c:if>
 
     <%-- Complaints Table --%>
-    <table>
-        <tr>
-            <th>ID</th>
-            <th>Description</th>
-            <th>Status</th>
-            <th>Remarks</th>
-            <th>Created At</th>
-            <th>Updated At</th>
-            <th>Action</th>
-        </tr>
-        <c:forEach var="complaint" items="${complaints}">
+        <table>
             <tr>
-                <td>${complaint.id}</td>
-                <td>${complaint.description}</td>
-                <td>${complaint.status}</td>
-                <td>${complaint.remarks}</td>
-                <td>${complaint.createdAt}</td>
-                <td>${complaint.updatedAt}</td>
-                <td>
-                    <form action="updateEmployeeComplaint" method="post">
-                        <input type="hidden" name="complaintId" value="${complaint.id}">
-                        <textarea name="description" placeholder="Update description">${complaint.description}</textarea>
-                        <input type="submit" value="Update Description">
-                    </form>
-                </td>
+                <th>ID</th>
+                <th>Description</th>
+                <th>Status</th>
+                <th>Remarks</th>
+                <th>Created At</th>
+                <th>Updated At</th>
+                <th>Action</th>
             </tr>
-        </c:forEach>
-    </table>
+            <c:forEach var="complaint" items="${complaints}">
+                <tr>
+                    <td>${complaint.id}</td>
+                    <td>${complaint.description}</td>
+                    <td>${complaint.status}</td>
+                    <td>${complaint.remarks}</td>
+                    <td>${complaint.createdAt}</td>
+                    <td>${complaint.updatedAt}</td>
+                    <td>
+                        <c:if test="${complaint.status ne 'Resolved'}">
+                            <form action="updateEmployeeComplaint" method="post" style="display:inline;">
+                                <input type="hidden" name="complaintId" value="${complaint.id}">
+                                <textarea name="description" placeholder="Update description">${complaint.description}</textarea>
+                                <input type="submit" value="Update Description">
+                            </form>
+                            <form action="deleteEmployeeComplaint" method="post" style="display:inline;" onsubmit="return confirm('Are you sure you want to delete this complaint?');">
+                                <input type="hidden" name="complaintId" value="${complaint.id}">
+                                <input type="submit" value="Delete" style="background-color:#d9534f;">
+                            </form>
+                        </c:if>
+                        <c:if test="${complaint.status eq 'Resolved'}">
+                            <span style="color:gray;">No actions</span>
+                        </c:if>
+                    </td>
+                </tr>
+            </c:forEach>
+        </table>
 </div>
 </body>
 </html>
