@@ -5,7 +5,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import live.kavinduj.cms.dao.ComplaintDAO;
+import live.kavinduj.cms.bean.ComplaintDAO;
 
 import java.io.IOException;
 
@@ -20,7 +20,6 @@ public class AdminDashServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Logic for handling GET requests to the admin dashboard
         request.setAttribute("complaints", complaintDAO.getAllComplaints());
         request.getRequestDispatcher("/WEB-INF/views/adminDashboard.jsp").forward(request, response);
     }

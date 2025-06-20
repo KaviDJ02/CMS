@@ -6,7 +6,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import live.kavinduj.cms.dao.UserDAO;
+import live.kavinduj.cms.bean.UserDAO;
 import live.kavinduj.cms.model.User;
 
 import java.io.IOException;
@@ -23,7 +23,6 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        // Forward to login.jsp for GET requests
         request.getRequestDispatcher("/WEB-INF/views/login.jsp").forward(request, response);
     }
 
@@ -35,20 +34,17 @@ public class LoginServlet extends HttpServlet {
 
         User user = userDAO.authenticate(username, password);
         if (user != null) {
-            // Create session and store user details
             HttpSession session = request.getSession();
             session.setAttribute("userId", user.getId());
             session.setAttribute("username", user.getUsername());
             session.setAttribute("role", user.getRole());
 
-            // Redirect based on role
             if ("Admin".equals(user.getRole())) {
                 response.sendRedirect(request.getContextPath() + "/adminDashboard");
             } else {
                 response.sendRedirect(request.getContextPath() + "/employeeDashboard");
             }
         } else {
-            // Invalid credentials, redirect back to login with error
             request.setAttribute("error", "Invalid username or password");
             request.getRequestDispatcher("/WEB-INF/views/login.jsp").forward(request, response);
         }

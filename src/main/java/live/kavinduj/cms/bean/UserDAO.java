@@ -1,4 +1,4 @@
-package live.kavinduj.cms.dao;
+package live.kavinduj.cms.bean;
 
 import live.kavinduj.cms.model.User;
 import org.apache.commons.dbcp2.BasicDataSource;
